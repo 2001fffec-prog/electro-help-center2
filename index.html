@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YourStore — Help Center</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300e5ff'/><path d='M18 5L8 18h7l-3 9L22 14h-7z' fill='%230a0a0a'/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   ROOT / TOKENS
+   ============================================================ */
+:root {
+  --ink:#0a0a0a;--ink2:#1c1c1c;--ink3:#2e2e2e;
+  --paper:#f8f7f4;--paper2:#f0ede8;--paper3:#e5e1da;
+  --white:#ffffff;
+  --border:rgba(10,10,10,0.09);--border2:rgba(10,10,10,0.17);
+  --electric:#00e5ff;--electric-dim:rgba(0,229,255,0.13);--electric-glow:rgba(0,229,255,0.25);
+  --spark:#ffe600;--warm:#ff5c35;--mint:#00c896;--violet:#9b59ff;
+  --muted:#6d6860;--muted2:#a09890;
+  --success:#00c896;--error:#ff5c35;--warning:#ffe600;
+  --font:'Space Grotesk',sans-serif;--mono:'Space Mono',monospace;
+  --r:16px;--r-sm:10px;--r-xs:7px;
+  --nav-h:60px;
+  --sidebar-w:220px;--chat-w:330px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 4px 16px rgba(0,0,0,.08),0 2px 6px rgba(0,0,0,.06);
+  --shadow-lg:0 20px 48px rgba(0,0,0,.12),0 8px 20px rgba(0,0,0,.08);
+  --trans:.2s cubic-bezier(.4,0,.2,1);
+  /* Light mode surfaces */
+  --bg:var(--paper);--surface:var(--white);--surface2:var(--paper);
+  --text:var(--ink);--text2:var(--muted);--text3:var(--muted2);
+  --b:var(--border);--b2:var(--border2);
+}
+[data-theme="dark"] {
+  --bg:#0d0d0f;--surface:#161618;--surface2:#1e1e21;
+  --text:#f0f0f2;--text2:#9898a8;--text3:#636374;
+  --b:rgba(255,255,255,0.07);--b2:rgba(255,255,255,0.13);
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --paper:var(--bg);--paper2:var(--surface);--paper3:var(--surface2);
+  --white:var(--surface);--ink:var(--text);--ink2:#d0d0e0;
+  --muted:var(--text2);--muted2:var(--text3);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.4);
+  --shadow:0 4px 16px rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.3);
+  --shadow-lg:0 20px 48px rgba(0,0,0,.5),0 8px 20px rgba(0,0,0,.4);
+}
+/* ============================================================ RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;transition:background var(--trans),color var(--trans);}
+::-webkit-scrollbar{width:4px;}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:4px;}
+a{text-decoration:none;color:inherit;}
+button{font-family:var(--font);}
+input,textarea{font-family:var(--font);}
+
+/* ============================================================ NAV */
+nav{
+  background:rgba(10,10,10,0.92);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  height:var(--nav-h);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;
+  position:sticky;top:0;z-index:500;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+[data-theme="light"] nav{background:rgba(10,10,10,0.96);}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo-bolt{width:30px;height:30px;background:var(--electric);border-radius:8px;display:flex;align-items:center;justify-content:center;box-shadow:0 0 14px var(--electric-glow);}
+.logo-name{font-family:var(--mono);font-size:14px;font-weight:700;color:white;letter-spacing:-0.3px;}
+.logo-name em{font-style:normal;color:var(--electric);}
+
+.nav-center{display:flex;align-items:center;gap:8px;}
+.nav-search{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.09);
+  border-radius:100px;padding:8px 16px;width:280px;
+  transition:border-color var(--trans),background var(--trans);
+}
+.nav-search:focus-within{border-color:rgba(0,229,255,0.4);background:rgba(255,255,255,0.09);}
+.nav-search input{background:transparent;border:none;outline:none;color:white;font-size:13px;width:100%;}
+.nav-search input::placeholder{color:rgba(255,255,255,0.28);}
+.search-ic{color:rgba(255,255,255,0.3);font-size:14px;flex-shrink:0;}
+.nav-right{display:flex;align-items:center;gap:14px;}
+.nav-live{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:9.5px;color:var(--electric);letter-spacing:0.12em;}
+.pulse{width:7px;height:7px;border-radius:50%;background:var(--electric);animation:pulse 2s ease-in-out infinite;box-shadow:0 0 6px var(--electric);}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.6);}}
+.nav-btn{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);
+  border-radius:100px;padding:7px 14px;
+  color:white;font-size:12.5px;font-weight:500;cursor:pointer;
+  transition:all var(--trans);
+}
+.nav-btn:hover{background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.18);}
+.theme-toggle{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);cursor:pointer;display:flex;align-items:center;justify-content:center;color:white;font-size:15px;transition:all var(--trans);}
+.theme-toggle:hover{background:rgba(255,255,255,0.12);}
+
+/* ============================================================ MOBILE NAV */
+.mobile-nav-toggle{display:none;background:none;border:none;color:white;font-size:22px;cursor:pointer;}
+
+/* ============================================================ HERO */
+.hero{
+  background:var(--ink);
+  padding:70px 40px 56px;
+  position:relative;overflow:hidden;
+}
+[data-theme="dark"] .hero{background:#080810;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,229,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.03) 1px,transparent 1px);background-size:52px 52px;pointer-events:none;}
+.hero-glow{position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:800px;height:600px;background:radial-gradient(ellipse,rgba(0,229,255,0.09) 0%,transparent 65%);pointer-events:none;}
+.hero-inner{max-width:960px;margin:0 auto;position:relative;z-index:2;}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;border:1px solid rgba(0,229,255,0.3);border-radius:100px;padding:5px 14px;font-family:var(--mono);font-size:10px;color:var(--electric);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:28px;background:rgba(0,229,255,0.05);}
+.tag-dot{width:5px;height:5px;border-radius:50%;background:var(--electric);}
+.hero h1{font-size:clamp(40px,6.5vw,76px);font-weight:700;line-height:.93;letter-spacing:-3px;color:white;margin-bottom:22px;}
+.h1-outline{color:transparent;-webkit-text-stroke:1.5px var(--electric);}
+.h1-spark{color:var(--spark);}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.38);max-width:500px;line-height:1.78;margin-bottom:40px;font-weight:300;}
+.hero-actions{display:flex;align-items:center;gap:12px;margin-bottom:44px;flex-wrap:wrap;}
+.btn-primary{display:inline-flex;align-items:center;gap:7px;background:var(--electric);color:#000;font-weight:600;font-size:13.5px;padding:11px 22px;border-radius:100px;border:none;cursor:pointer;transition:all var(--trans);box-shadow:0 0 20px rgba(0,229,255,0.3);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 0 28px rgba(0,229,255,0.45);}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;background:transparent;color:rgba(255,255,255,0.6);font-weight:500;font-size:13.5px;padding:11px 22px;border-radius:100px;border:1px solid rgba(255,255,255,0.15);cursor:pointer;transition:all var(--trans);}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.35);color:white;}
+.hero-stats{display:flex;gap:0;border:1px solid rgba(255,255,255,.07);border-radius:var(--r);overflow:hidden;width:fit-content;background:rgba(255,255,255,0.03);backdrop-filter:blur(10px);}
+.hstat{padding:18px 28px;border-right:1px solid rgba(255,255,255,.07);}
+.hstat:last-child{border-right:none;}
+.hstat-n{font-family:var(--mono);font-size:22px;font-weight:700;color:white;letter-spacing:-1px;}
+.hstat-n.el{color:var(--electric);text-shadow:0 0 12px rgba(0,229,255,0.4);}
+.hstat-n.sp{color:var(--spark);}
+.hstat-n.mi{color:var(--mint);}
+.hstat-n.vi{color:var(--violet);}
+.hstat-l{font-size:10px;color:rgba(255,255,255,.28);margin-top:4px;letter-spacing:.04em;text-transform:uppercase;}
+
+/* ============================================================ CONTACT STRIP */
+.contact-strip{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--b);background:var(--surface);}
+.cs-item{display:flex;align-items:center;gap:14px;padding:18px 24px;border-right:1px solid var(--b);cursor:pointer;color:inherit;transition:background var(--trans);position:relative;overflow:hidden;}
+.cs-item:last-child{border-right:none;}
+.cs-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--electric);transform:scaleX(0);transform-origin:left;transition:transform .3s ease;}
+.cs-item:hover{background:var(--surface2);}
+.cs-item:hover::after{transform:scaleX(1);}
+.cs-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ci-g{background:rgba(0,200,150,.1);}
+.ci-b{background:rgba(0,229,255,.1);}
+.ci-v{background:rgba(155,89,255,.1);}
+.cs-label{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:2px;font-family:var(--mono);}
+.cs-val{font-size:13.5px;font-weight:600;letter-spacing:-.2px;color:var(--text);}
+.cs-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+.cs-arr{margin-left:auto;color:var(--text3);font-size:16px;}
+
+/* ============================================================ TABS BAR */
+.tabs-bar{
+  background:var(--surface);
+  border-bottom:1px solid var(--b);
+  display:flex;align-items:center;
+  padding:0 24px;overflow-x:auto;
+}
+.tab-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:14px 16px;
+  border:none;background:transparent;
+  color:var(--text2);font-size:13px;font-weight:500;
+  cursor:pointer;white-space:nowrap;
+  border-bottom:2px solid transparent;
+  transition:all var(--trans);
+  position:relative;
+}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{color:var(--electric);border-bottom-color:var(--electric);}
+.tab-icon{font-size:15px;}
+.tab-badge{background:var(--electric-dim);color:var(--electric);font-family:var(--mono);font-size:9px;padding:2px 6px;border-radius:100px;font-weight:700;}
+
+/* ============================================================ LAYOUT */
+.page{display:none;}
+.page.active{display:block;}
+.layout{display:flex;align-items:flex-start;}
+
+/* ============================================================ SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--b);
+  padding:20px 12px;
+  position:sticky;top:var(--nav-h);
+  height:calc(100vh - var(--nav-h));
+  overflow-y:auto;
+  transition:background var(--trans),border-color var(--trans);
+}
+.sb-label{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.16em;color:var(--text3);padding:0 10px;margin-bottom:8px;margin-top:4px;}
+.cat-btn{
+  display:flex;align-items:center;gap:9px;
+  width:100%;padding:9px 10px;
+  border:none;background:transparent;
+  color:var(--text2);
+  border-radius:var(--r-sm);
+  cursor:pointer;font-size:13px;font-family:var(--font);font-weight:500;
+  text-align:left;transition:all var(--trans);margin-bottom:2px;
+}
+.cat-btn:hover{background:var(--surface2);color:var(--text);}
+.cat-btn.active{background:var(--electric);color:#000;}
+.cat-btn.active .cat-cnt{background:rgba(0,0,0,.15);color:rgba(0,0,0,.6);}
+.cdot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.cat-cnt{margin-left:auto;font-family:var(--mono);font-size:10px;background:var(--surface2);color:var(--text3);padding:2px 7px;border-radius:100px;transition:all var(--trans);}
+.sdiv{height:1px;background:var(--b);margin:14px 0;}
+.hours-box{background:var(--ink);border-radius:var(--r-sm);padding:14px;}
+[data-theme="dark"] .hours-box{background:var(--surface2);}
+.hours-ttl{font-family:var(--mono);font-size:10px;font-weight:700;color:var(--electric);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px;}
+.hr-row{display:flex;justify-content:space-between;font-size:11px;margin-bottom:5px;color:rgba(255,255,255,.3);}
+[data-theme="dark"] .hr-row{color:var(--text3);}
+.hr-val{color:white;font-weight:500;}
+[data-theme="dark"] .hr-val{color:var(--text);}
+.sb-actions{display:flex;flex-direction:column;gap:6px;margin-top:14px;}
+.sb-action-btn{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:var(--r-sm);border:1px solid var(--b);background:transparent;color:var(--text2);font-size:12.5px;font-weight:500;cursor:pointer;transition:all var(--trans);font-family:var(--font);text-align:left;}
+.sb-action-btn:hover{background:var(--surface2);border-color:var(--b2);color:var(--text);}
+
+/* ============================================================ MAIN */
+.main{flex:1;padding:28px 24px;min-width:0;}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px;}
+.sec-title{font-size:20px;font-weight:700;letter-spacing:-.6px;color:var(--text);}
+.res-count{font-family:var(--mono);font-size:11px;color:var(--text3);background:var(--surface2);padding:4px 10px;border-radius:100px;}
+
+/* ============================================================ POPULAR & RECENT */
+.popular-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:28px;}
+.popular-card{
+  background:var(--surface);border:1px solid var(--b);
+  border-radius:var(--r-sm);padding:14px 16px;
+  cursor:pointer;transition:all var(--trans);position:relative;overflow:hidden;
+}
+.popular-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--electric-dim) 0%,transparent 60%);opacity:0;transition:opacity var(--trans);}
+.popular-card:hover{border-color:var(--electric);transform:translateY(-1px);box-shadow:var(--shadow);}
+.popular-card:hover::before{opacity:1;}
+.pc-badge{font-size:18px;margin-bottom:8px;}
+.pc-q{font-size:12.5px;font-weight:600;color:var(--text);line-height:1.5;position:relative;}
+.pc-cat{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:5px;text-transform:uppercase;letter-spacing:.08em;position:relative;}
+.recent-label{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.recent-label::after{content:'';flex:1;height:1px;background:var(--b);}
+.recent-pills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;}
+.recent-pill{padding:5px 12px;border:1px solid var(--b);border-radius:100px;font-size:11.5px;color:var(--text2);cursor:pointer;transition:all var(--trans);background:var(--surface);}
+.recent-pill:hover{border-color:var(--electric);color:var(--electric);}
+
+/* ============================================================ FAQ */
+.faq-item{
+  background:var(--surface);border:1px solid var(--b);
+  border-radius:var(--r);margin-bottom:6px;overflow:hidden;
+  transition:border-color var(--trans),box-shadow var(--trans),transform var(--trans);
+}
+.faq-item:hover{border-color:var(--b2);transform:translateX(2px);}
+.faq-item.open{border-color:var(--electric);box-shadow:0 0 0 1px var(--electric-dim),var(--shadow);}
+.fq{padding:15px 17px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;user-select:none;}
+.fql{display:flex;align-items:center;gap:11px;min-width:0;}
+.fbadge{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.ftitle{font-size:13.5px;font-weight:600;letter-spacing:-.15px;color:var(--text);overflow:hidden;text-overflow:ellipsis;}
+.fchev{width:22px;height:22px;border:1.5px solid var(--b2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--text3);flex-shrink:0;transition:transform .24s,background var(--trans),border-color var(--trans),color var(--trans);}
+.faq-item.open .fchev{transform:rotate(180deg);background:var(--electric);border-color:var(--electric);color:#000;}
+.fa{padding:0 17px;max-height:0;overflow:hidden;transition:max-height .35s ease,padding .22s;font-size:13.5px;color:var(--text2);line-height:1.78;}
+.faq-item.open .fa{max-height:300px;padding:0 17px 17px;border-top:1px solid var(--b);}
+.fa-actions{margin-top:12px;display:flex;gap:8px;}
+.fa-action{padding:5px 12px;border:1px solid var(--b2);border-radius:100px;font-size:11px;color:var(--text2);cursor:pointer;background:var(--surface2);transition:all var(--trans);font-family:var(--font);}
+.fa-action:hover{border-color:var(--electric);color:var(--electric);}
+.highlight{background:rgba(255,230,0,0.25);color:var(--ink);border-radius:2px;padding:0 1px;}
+[data-theme="dark"] .highlight{background:rgba(255,230,0,0.2);color:#ffe600;}
+.no-res{text-align:center;padding:60px 24px;color:var(--text2);}
+.no-res-icon{font-size:42px;margin-bottom:14px;}
+
+/* ============================================================ CHAT PANEL */
+.chat-panel{
+  width:var(--chat-w);flex-shrink:0;
+  background:var(--surface);border-left:1px solid var(--b);
+  display:flex;flex-direction:column;
+  position:sticky;top:var(--nav-h);
+  height:calc(100vh - var(--nav-h));
+  transition:background var(--trans),border-color var(--trans);
+}
+.chat-head{padding:13px 15px;border-bottom:1px solid var(--b);background:var(--ink2);display:flex;align-items:center;gap:11px;}
+[data-theme="dark"] .chat-head{background:var(--surface2);}
+.chat-ava{width:34px;height:34px;background:linear-gradient(135deg,var(--electric),#00a8cc);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 12px var(--electric-glow);}
+.chat-info .chat-name{font-family:var(--mono);font-size:12px;font-weight:700;color:white;letter-spacing:-.2px;}
+.chat-status{font-size:10px;color:var(--electric);display:flex;align-items:center;gap:5px;margin-top:2px;}
+.chat-badge{margin-left:auto;font-family:var(--mono);font-size:9px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--electric);padding:3px 8px;border-radius:100px;text-transform:uppercase;letter-spacing:.08em;}
+.msgs{flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}
+.msg{max-width:88%;animation:fadeup .28s ease forwards;}
+.msg.bot{align-self:flex-start;}
+.msg.user{align-self:flex-end;}
+.bubble{padding:10px 13px;border-radius:14px;font-size:12.5px;line-height:1.68;word-wrap:break-word;}
+.msg.bot .bubble{background:var(--surface2);color:var(--text);border-bottom-left-radius:3px;border:1px solid var(--b);}
+.msg.user .bubble{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;border-bottom-right-radius:3px;border:1px solid rgba(0,229,255,0.2);}
+[data-theme="light"] .msg.user .bubble{background:var(--ink);color:white;}
+.mtime{font-size:9px;color:var(--text3);margin-top:3px;padding:0 3px;font-family:var(--mono);}
+.msg.user .mtime{text-align:right;}
+.typing-wrap{align-self:flex-start;}
+.tbubble{background:var(--surface2);border:1px solid var(--b);border-radius:14px;border-bottom-left-radius:3px;padding:12px 15px;display:flex;gap:5px;align-items:center;}
+.td{width:5px;height:5px;border-radius:50%;background:var(--text3);animation:tda 1.4s infinite;}
+.td:nth-child(2){animation-delay:.2s;}.td:nth-child(3){animation-delay:.4s;}
+@keyframes tda{0%,80%,100%{transform:translateY(0);opacity:.3;}40%{transform:translateY(-6px);opacity:1;}}
+.chips{padding:8px 11px;display:flex;flex-wrap:wrap;gap:5px;border-top:1px solid var(--b);}
+.chip{padding:5px 11px;font-size:11px;font-weight:500;background:var(--surface2);border:1px solid var(--b);border-radius:100px;color:var(--text2);cursor:pointer;transition:all var(--trans);}
+.chip:hover{background:var(--electric);border-color:var(--electric);color:#000;}
+.chat-in{padding:10px 11px;border-top:1px solid var(--b);display:flex;gap:7px;background:var(--surface2);}
+.chat-in input{flex:1;background:var(--surface);border:1px solid var(--b);border-radius:100px;padding:9px 15px;color:var(--text);font-size:13px;outline:none;transition:border-color var(--trans);}
+.chat-in input:focus{border-color:var(--electric);}
+.chat-in input::placeholder{color:var(--text3);}
+.sbtn{width:36px;height:36px;background:var(--electric);border:none;border-radius:50%;color:#000;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all var(--trans);font-weight:700;}
+.sbtn:hover{transform:scale(1.08);box-shadow:0 0 12px var(--electric-glow);}
+.sbtn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+
+/* ============================================================ CONTACT FORM PAGE */
+.form-page{max-width:720px;margin:0 auto;padding:40px 24px;}
+.form-title{font-size:28px;font-weight:700;letter-spacing:-.8px;color:var(--text);margin-bottom:6px;}
+.form-sub{font-size:14px;color:var(--text2);margin-bottom:32px;line-height:1.6;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-group{display:flex;flex-direction:column;gap:7px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:12.5px;font-weight:600;color:var(--text);letter-spacing:-.1px;}
+.form-label span{color:var(--warm);}
+.form-input{
+  background:var(--surface);border:1px solid var(--b2);border-radius:var(--r-sm);
+  padding:11px 14px;color:var(--text);font-size:13.5px;outline:none;
+  transition:border-color var(--trans),box-shadow var(--trans);
+  width:100%;
+}
+.form-input:focus{border-color:var(--electric);box-shadow:0 0 0 3px var(--electric-dim);}
+.form-input.error{border-color:var(--error);box-shadow:0 0 0 3px rgba(255,92,53,0.12);}
+.form-input::placeholder{color:var(--text3);}
+textarea.form-input{resize:vertical;min-height:120px;line-height:1.6;}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.err-msg{font-size:11.5px;color:var(--error);display:none;}
+.err-msg.show{display:block;}
+.form-footer{display:flex;align-items:center;justify-content:space-between;margin-top:20px;flex-wrap:wrap;gap:12px;}
+.form-note{font-size:12px;color:var(--text3);}
+.submit-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--electric);color:#000;
+  font-weight:700;font-size:14px;
+  padding:12px 28px;border-radius:100px;border:none;cursor:pointer;
+  transition:all var(--trans);font-family:var(--font);
+  box-shadow:0 0 20px rgba(0,229,255,0.25);
+}
+.submit-btn:hover{transform:translateY(-1px);box-shadow:0 0 30px rgba(0,229,255,0.4);}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+.form-success{
+  text-align:center;padding:52px 24px;
+  background:var(--surface);border:1px solid var(--b);
+  border-radius:var(--r);display:none;
+}
+.form-success.show{display:block;}
+.success-icon{font-size:48px;margin-bottom:16px;}
+.success-title{font-size:22px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.success-sub{font-size:14px;color:var(--text2);line-height:1.6;}
+
+/* ============================================================ TICKET SYSTEM */
+.ticket-page{max-width:960px;margin:0 auto;padding:40px 24px;}
+.ticket-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+.tickets-list{display:flex;flex-direction:column;gap:10px;}
+.ticket-card{
+  background:var(--surface);border:1px solid var(--b);
+  border-radius:var(--r);padding:18px 20px;
+  cursor:pointer;transition:all var(--trans);
+  display:flex;align-items:center;gap:16px;
+}
+.ticket-card:hover{border-color:var(--b2);transform:translateX(3px);box-shadow:var(--shadow-sm);}
+.ticket-status{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.ts-open{background:#00e5ff;box-shadow:0 0 8px rgba(0,229,255,0.5);}
+.ts-pending{background:#ffe600;box-shadow:0 0 8px rgba(255,230,0,0.4);}
+.ts-closed{background:#888;}
+.ticket-body{flex:1;min-width:0;}
+.ticket-id{font-family:var(--mono);font-size:10px;color:var(--text3);margin-bottom:4px;letter-spacing:.06em;}
+.ticket-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ticket-preview{font-size:12px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.ticket-meta{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+.ticket-badge{font-size:10px;font-weight:700;font-family:var(--mono);padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:.06em;}
+.tb-open{background:rgba(0,229,255,0.1);color:var(--electric);border:1px solid rgba(0,229,255,0.2);}
+.tb-pending{background:rgba(255,230,0,0.1);color:#b8a800;border:1px solid rgba(255,230,0,0.2);}
+[data-theme="dark"] .tb-pending{color:var(--spark);}
+.tb-closed{background:var(--surface2);color:var(--text3);border:1px solid var(--b);}
+.ticket-date{font-size:11px;color:var(--text3);font-family:var(--mono);}
+.ticket-detail{display:none;background:var(--surface);border:1px solid var(--b);border-radius:var(--r);padding:28px;margin-top:16px;}
+.ticket-detail.show{display:block;animation:fadeup .25s ease;}
+.td-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.td-title{font-size:18px;font-weight:700;color:var(--text);}
+.back-btn{display:flex;align-items:center;gap:6px;background:var(--surface2);border:1px solid var(--b);border-radius:100px;padding:7px 14px;font-size:12.5px;color:var(--text2);cursor:pointer;transition:all var(--trans);font-family:var(--font);}
+.back-btn:hover{border-color:var(--b2);color:var(--text);}
+.thread{display:flex;flex-direction:column;gap:14px;margin-bottom:20px;}
+.thread-msg{padding:14px 16px;border-radius:var(--r-sm);font-size:13px;line-height:1.7;color:var(--text2);}
+.thread-msg.support{background:var(--electric-dim);border:1px solid rgba(0,229,255,0.15);}
+.thread-msg.customer{background:var(--surface2);border:1px solid var(--b);}
+.thread-who{font-size:11px;font-weight:700;font-family:var(--mono);margin-bottom:7px;color:var(--text3);}
+.thread-msg.support .thread-who{color:var(--electric);}
+.reply-box{border-top:1px solid var(--b);padding-top:16px;}
+.reply-input{width:100%;background:var(--surface2);border:1px solid var(--b);border-radius:var(--r-sm);padding:12px 14px;color:var(--text);font-size:13px;line-height:1.6;resize:vertical;min-height:90px;outline:none;transition:border-color var(--trans);}
+.reply-input:focus{border-color:var(--electric);}
+
+/* ============================================================ ORDER TRACKING */
+.tracking-page{max-width:680px;margin:0 auto;padding:40px 24px;}
+.tracking-input-wrap{display:flex;gap:10px;margin-bottom:36px;}
+.tracking-input{flex:1;background:var(--surface);border:1px solid var(--b2);border-radius:var(--r);padding:14px 18px;color:var(--text);font-size:15px;outline:none;transition:border-color var(--trans),box-shadow var(--trans);}
+.tracking-input:focus{border-color:var(--electric);box-shadow:0 0 0 3px var(--electric-dim);}
+.tracking-input::placeholder{color:var(--text3);}
+.track-btn{background:var(--electric);color:#000;border:none;border-radius:var(--r);padding:14px 24px;font-weight:700;font-size:14px;cursor:pointer;font-family:var(--font);transition:all var(--trans);white-space:nowrap;}
+.track-btn:hover{transform:translateY(-1px);box-shadow:0 0 20px rgba(0,229,255,0.3);}
+.order-result{display:none;animation:fadeup .3s ease;}
+.order-result.show{display:block;}
+.order-info-card{background:var(--surface);border:1px solid var(--b);border-radius:var(--r);padding:22px;margin-bottom:22px;}
+.order-info-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--b);}
+.order-num{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--text);letter-spacing:-0.5px;}
+.order-status-badge{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;font-family:var(--mono);color:var(--mint);text-transform:uppercase;letter-spacing:.06em;}
+.order-details-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.od-item label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-family:var(--mono);display:block;margin-bottom:3px;}
+.od-item span{font-size:13px;font-weight:600;color:var(--text);}
+.timeline{position:relative;padding-left:28px;}
+.timeline::before{content:'';position:absolute;left:9px;top:12px;bottom:12px;width:2px;background:var(--b);border-radius:2px;}
+.tl-item{position:relative;margin-bottom:24px;}
+.tl-item:last-child{margin-bottom:0;}
+.tl-dot{
+  position:absolute;left:-28px;top:4px;
+  width:18px;height:18px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:8px;transition:all var(--trans);
+}
+.tl-item.done .tl-dot{background:var(--mint);border-color:var(--mint);color:white;font-size:10px;}
+.tl-item.active .tl-dot{background:var(--electric);border-color:var(--electric);box-shadow:0 0 0 4px var(--electric-dim);animation:tl-pulse 2s ease infinite;}
+@keyframes tl-pulse{0%,100%{box-shadow:0 0 0 4px var(--electric-dim);}50%{box-shadow:0 0 0 8px rgba(0,229,255,0.05);}}
+.tl-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px;}
+.tl-item:not(.done):not(.active) .tl-title{color:var(--text3);}
+.tl-date{font-size:11.5px;color:var(--text3);font-family:var(--mono);}
+.tl-desc{font-size:12.5px;color:var(--text2);margin-top:4px;}
+
+/* ============================================================ ACCOUNT PAGE */
+.account-page{max-width:880px;margin:0 auto;padding:40px 24px;}
+.auth-card{background:var(--surface);border:1px solid var(--b);border-radius:var(--r);padding:36px;max-width:440px;margin:0 auto;}
+.auth-tabs{display:flex;background:var(--surface2);border-radius:var(--r-sm);padding:4px;margin-bottom:28px;gap:4px;}
+.auth-tab{flex:1;padding:9px;text-align:center;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;transition:all var(--trans);color:var(--text2);background:transparent;border:none;font-family:var(--font);}
+.auth-tab.active{background:var(--surface);color:var(--text);box-shadow:var(--shadow-sm);}
+.auth-form{display:none;}
+.auth-form.show{display:block;}
+.auth-social{display:flex;gap:10px;margin-top:20px;}
+.social-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;border:1px solid var(--b2);border-radius:var(--r-sm);background:transparent;color:var(--text);font-size:13px;font-weight:500;cursor:pointer;transition:all var(--trans);font-family:var(--font);}
+.social-btn:hover{background:var(--surface2);border-color:var(--b2);}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:var(--text3);font-size:12px;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--b);}
+.dashboard{display:none;}
+.dashboard.show{display:block;}
+.dash-welcome{margin-bottom:28px;}
+.dash-welcome h2{font-size:22px;font-weight:700;color:var(--text);}
+.dash-welcome p{color:var(--text2);font-size:14px;margin-top:4px;}
+.dash-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
+.dash-card{background:var(--surface);border:1px solid var(--b);border-radius:var(--r);padding:20px;transition:all var(--trans);}
+.dash-card:hover{border-color:var(--b2);transform:translateY(-2px);box-shadow:var(--shadow);}
+.dash-card-icon{font-size:24px;margin-bottom:10px;}
+.dash-card-n{font-family:var(--mono);font-size:28px;font-weight:700;color:var(--text);letter-spacing:-1px;}
+.dash-card-l{font-size:12px;color:var(--text2);margin-top:3px;}
+.dash-section-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--b);}
+.dash-order-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--b);}
+.dash-order-row:last-child{border-bottom:none;}
+
+/* ============================================================ TOAST */
+.toast-container{position:fixed;bottom:24px;right:24px;z-index:1000;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.toast{
+  display:flex;align-items:center;gap:11px;
+  background:var(--ink);color:white;
+  border-radius:var(--r-sm);padding:13px 18px;
+  font-size:13px;font-weight:500;
+  box-shadow:var(--shadow-lg);
+  border:1px solid rgba(255,255,255,0.1);
+  animation:toast-in .3s ease;
+  pointer-events:all;
+  max-width:340px;
+  min-width:240px;
+}
+[data-theme="dark"] .toast{background:var(--surface2);border-color:var(--b2);}
+.toast.success{border-left:3px solid var(--mint);}
+.toast.error{border-left:3px solid var(--warm);}
+.toast.info{border-left:3px solid var(--electric);}
+.toast.out{animation:toast-out .3s ease forwards;}
+@keyframes toast-in{from{opacity:0;transform:translateX(20px) scale(.96);}to{opacity:1;transform:translateX(0) scale(1);}}
+@keyframes toast-out{to{opacity:0;transform:translateX(20px) scale(.95);}}
+
+/* ============================================================ SKELETON */
+.skeleton{background:linear-gradient(90deg,var(--surface2) 25%,var(--surface) 50%,var(--surface2) 75%);background-size:200% 100%;animation:skel 1.5s infinite;border-radius:6px;}
+@keyframes skel{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+
+/* ============================================================ MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:800;display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px);}
+.modal-overlay.show{display:flex;animation:fadeup .2s ease;}
+.modal{background:var(--surface);border:1px solid var(--b2);border-radius:20px;padding:32px;max-width:480px;width:100%;box-shadow:var(--shadow-lg);animation:modal-in .25s ease;}
+@keyframes modal-in{from{opacity:0;transform:scale(.95) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+.modal-title{font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px;}
+.modal-sub{font-size:13.5px;color:var(--text2);margin-bottom:22px;line-height:1.6;}
+.modal-close{position:absolute;top:16px;right:16px;background:var(--surface2);border:1px solid var(--b);border-radius:50%;width:28px;height:28px;cursor:pointer;color:var(--text2);font-size:16px;display:flex;align-items:center;justify-content:center;}
+
+/* ============================================================ FOOTER */
+footer{background:var(--ink);padding:44px 40px 28px;margin-top:0;}
+[data-theme="dark"] footer{background:#080810;border-top:1px solid var(--b);}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px;max-width:1200px;margin:0 auto;}
+.fc h4{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,.25);margin-bottom:13px;}
+.fc a,.fc p{font-size:13px;color:rgba(255,255,255,.45);text-decoration:none;display:block;margin-bottom:7px;line-height:1.5;font-weight:300;transition:color var(--trans);}
+.fc a:hover{color:var(--electric);}
+.fbottom{border-top:1px solid rgba(255,255,255,.06);margin-top:32px;padding-top:18px;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-family:var(--mono);color:rgba(255,255,255,.2);}
+.fbottom span:last-child{color:rgba(0,229,255,.4);}
+
+/* ============================================================ ANIMATIONS */
+@keyframes fadeup{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.fi{animation:fadeup .3s ease forwards;opacity:0;}
+
+/* ============================================================ MOBILE */
+@media(max-width:900px){
+  .chat-panel{display:none;}
+  .sidebar{width:180px;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .hero{padding:50px 24px 40px;}
+}
+@media(max-width:680px){
+  .sidebar{display:none;}
+  .sidebar.mobile-open{display:block;position:fixed;left:0;top:0;bottom:0;z-index:400;box-shadow:var(--shadow-lg);width:240px;height:100vh;}
+  .mobile-nav-toggle{display:block;}
+  .contact-strip{grid-template-columns:1fr;}
+  .cs-item{border-right:none;border-bottom:1px solid var(--b);}
+  .cs-item:last-child{border-bottom:none;}
+  .popular-grid{grid-template-columns:1fr;}
+  .form-grid{grid-template-columns:1fr;}
+  .dash-grid{grid-template-columns:1fr 1fr;}
+  .hero{padding:40px 20px 32px;}
+  .hero h1{font-size:clamp(32px,8vw,52px);}
+  .tracking-input-wrap{flex-direction:column;}
+  .order-details-grid{grid-template-columns:repeat(2,1fr);}
+  .tabs-bar{padding:0 8px;}
+  .tab-btn{padding:12px 10px;font-size:12px;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+@media(max-width:420px){
+  .dash-grid{grid-template-columns:1fr;}
+  .auth-social{flex-direction:column;}
+  .nav-search{width:160px;}
+}
+
+/* ============================================================ MOBILE CHAT BUTTON & OVERLAY */
+.mobile-chat-btn{
+  display:none;
+  position:fixed;bottom:24px;right:24px;z-index:600;
+  width:56px;height:56px;border-radius:50%;
+  background:var(--electric);border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(0,229,255,0.5);
+  font-size:24px;align-items:center;justify-content:center;
+  transition:all var(--trans);
+}
+.mobile-chat-btn:hover{transform:scale(1.08);}
+.mobile-chat-btn .chat-unread{
+  position:absolute;top:-2px;right:-2px;
+  width:16px;height:16px;border-radius:50%;
+  background:var(--warm);color:white;
+  font-size:9px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);
+}
+
+.mobile-chat-overlay{
+  display:none;
+  position:fixed;inset:0;z-index:700;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(4px);
+  align-items:flex-end;
+  justify-content:center;
+  padding:0;
+}
+.mobile-chat-overlay.open{display:flex;animation:fadeup .25s ease;}
+.mobile-chat-sheet{
+  width:100%;max-width:500px;
+  height:85vh;
+  background:var(--surface);
+  border-radius:20px 20px 0 0;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  box-shadow:0 -8px 40px rgba(0,0,0,0.4);
+}
+.mobile-chat-sheet .chat-head{
+  padding:16px 18px;border-bottom:1px solid var(--b);
+  background:var(--surface2);display:flex;align-items:center;gap:11px;
+  flex-shrink:0;
+}
+.mobile-chat-drag{
+  width:40px;height:4px;border-radius:4px;
+  background:var(--b2);margin:10px auto 0;flex-shrink:0;
+}
+.mobile-chat-sheet .msgs{
+  flex:1;padding:14px;overflow-y:auto;
+  display:flex;flex-direction:column;gap:8px;
+}
+.mobile-chat-sheet .chips{
+  padding:8px 11px;display:flex;flex-wrap:wrap;gap:5px;
+  border-top:1px solid var(--b);flex-shrink:0;
+}
+.mobile-chat-sheet .chat-in{
+  padding:12px;border-top:1px solid var(--b);
+  display:flex;gap:7px;background:var(--surface2);flex-shrink:0;
+}
+.mobile-chat-sheet .chat-in input{
+  flex:1;background:var(--surface);border:1px solid var(--b);
+  border-radius:100px;padding:10px 16px;color:var(--text);
+  font-size:14px;outline:none;transition:border-color var(--trans);
+  font-family:var(--font);
+}
+.mobile-chat-sheet .chat-in input:focus{border-color:var(--electric);}
+.mobile-chat-sheet .chat-in input::placeholder{color:var(--text3);}
+.close-chat-btn{
+  margin-left:auto;background:var(--surface);border:1px solid var(--b);
+  border-radius:50%;width:30px;height:30px;cursor:pointer;
+  color:var(--text2);font-size:18px;display:flex;
+  align-items:center;justify-content:center;
+  transition:all var(--trans);
+}
+.close-chat-btn:hover{background:var(--warm);color:white;border-color:var(--warm);}
+
+@media(max-width:900px){
+  .mobile-chat-btn{display:flex;}
+}
+</style>
+</head>
+<body>
+
+<!-- ================================================================ NAV -->
+<nav>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <button class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+    <a class="logo" href="#">
+      <div class="logo-bolt">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M9 2L3.5 8.5H7.5L6 13L11.5 6.5H7.5L9 2Z" fill="#0a0a0a"/></svg>
+      </div>
+      <span class="logo-name">Electro<em>Shop</em></span>
+    </a>
+  </div>
+  <div class="nav-search" style="position:relative;">
+    <span class="search-ic">⌕</span>
+    <input type="text" id="searchInput" placeholder="Search help articles…" autocomplete="off"/>
+  </div>
+  <div class="nav-right">
+    <div class="nav-live"><div class="pulse"></div><span class="desktop-only">LIVE</span></div>
+    <button class="nav-btn" onclick="showTab('account')">
+      <span>👤</span><span class="desktop-only">Account</span>
+    </button>
+    <button class="theme-toggle" onclick="toggleTheme()" title="Toggle theme" id="themeBtn">🌙</button>
+  </div>
+</nav>
+
+<!-- ================================================================ HERO -->
+<div class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-tag"><div class="tag-dot"></div>Help Center 2025</div>
+    <h1>We've got<br><span class="h1-outline">answers</span> for<br><span class="h1-spark">everything.</span></h1>
+    <p class="hero-sub">Find solutions instantly or chat with our virtual assistant — available every hour, every day.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="showTab('contact')">✉ Contact Us</button>
+      <button class="btn-ghost" onclick="showTab('tracking')">📦 Track Order</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n el">98%</div><div class="hstat-l">Satisfaction</div></div>
+      <div class="hstat"><div class="hstat-n sp">&lt;2 min</div><div class="hstat-l">Avg response</div></div>
+      <div class="hstat"><div class="hstat-n mi">24/7</div><div class="hstat-l">Chat support</div></div>
+      <div class="hstat"><div class="hstat-n vi">50K+</div><div class="hstat-l">Customers</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ CONTACT STRIP -->
+<div class="contact-strip">
+  <a href="tel:+00000000000" class="cs-item store-phone">
+    <div class="cs-icon ci-g">📞</div>
+    <div><div class="cs-label">Call us</div><div class="cs-val store-phone">+0 (000) 000-0000</div><div class="cs-sub">Mon–Fri, <span class="store-hours-wkd">9am – 6pm</span></div></div>
+    <div class="cs-arr">→</div>
+  </a>
+  <a href="mailto:support@yourstore.com" class="cs-item store-email">
+    <div class="cs-icon ci-b">✉️</div>
+    <div><div class="cs-label">Email us</div><div class="cs-val store-email">support@yourstore.com</div><div class="cs-sub">Reply within 24 hours</div></div>
+    <div class="cs-arr">→</div>
+  </a>
+  <div class="cs-item" onclick="document.getElementById('chatInput').focus()">
+    <div class="cs-icon ci-v">💬</div>
+    <div><div class="cs-label">Live Chat</div><div class="cs-val">Virtual Assistant</div><div class="cs-sub">Instant answers, always on</div></div>
+    <div class="cs-arr">→</div>
+  </div>
+</div>
+
+<!-- ================================================================ TABS -->
+<div class="tabs-bar">
+  <button class="tab-btn active" data-tab="faq" onclick="showTab('faq')"><span class="tab-icon">📚</span> Help Center</button>
+  <button class="tab-btn" data-tab="contact" onclick="showTab('contact')"><span class="tab-icon">✉️</span> Contact</button>
+  <button class="tab-btn" data-tab="tickets" onclick="showTab('tickets')"><span class="tab-icon">🎫</span> My Tickets <span class="tab-badge">3</span></button>
+  <button class="tab-btn" data-tab="tracking" onclick="showTab('tracking')"><span class="tab-icon">📦</span> Track Order</button>
+  <button class="tab-btn" data-tab="account" onclick="showTab('account')"><span class="tab-icon">👤</span> Account</button>
+</div>
+
+<!-- ================================================================ FAQ PAGE -->
+<div id="page-faq" class="page active">
+  <div class="layout">
+    <div class="sidebar" id="sidebar">
+      <div class="sb-label">Topics</div>
+      <button class="cat-btn active" data-cat="all" onclick="setCat(this)"><span class="cdot" style="background:#a09890"></span>All Topics<span class="cat-cnt" id="c-all">0</span></button>
+      <button class="cat-btn" data-cat="orders" onclick="setCat(this)"><span class="cdot" style="background:#00e5ff"></span>Orders<span class="cat-cnt" id="c-orders">0</span></button>
+      <button class="cat-btn" data-cat="payment" onclick="setCat(this)"><span class="cdot" style="background:#00c896"></span>Payments<span class="cat-cnt" id="c-payment">0</span></button>
+      <button class="cat-btn" data-cat="delivery" onclick="setCat(this)"><span class="cdot" style="background:#ffe600"></span>Delivery<span class="cat-cnt" id="c-delivery">0</span></button>
+      <button class="cat-btn" data-cat="returns" onclick="setCat(this)"><span class="cdot" style="background:#ff5c35"></span>Returns<span class="cat-cnt" id="c-returns">0</span></button>
+      <button class="cat-btn" data-cat="warranty" onclick="setCat(this)"><span class="cdot" style="background:#9b59ff"></span>Warranty<span class="cat-cnt" id="c-warranty">0</span></button>
+      <button class="cat-btn" data-cat="general" onclick="setCat(this)"><span class="cdot" style="background:#ff9f0a"></span>General<span class="cat-cnt" id="c-general">0</span></button>
+      <div class="sdiv"></div>
+      <div class="sb-actions">
+        <button class="sb-action-btn" onclick="showTab('contact')">✉ Send a message</button>
+        <button class="sb-action-btn" onclick="showTab('tickets')">🎫 View my tickets</button>
+        <button class="sb-action-btn" onclick="showTab('tracking')">📦 Track an order</button>
+      </div>
+      <div class="sdiv"></div>
+      <div class="hours-box">
+        <div class="hours-ttl">⚡ Hours</div>
+        <div class="hr-row"><span>Mon – Fri</span><span class="hr-val store-hours-wkd">9am – 6pm</span></div>
+        <div class="hr-row"><span>Saturday</span><span class="hr-val store-hours-sat">10am – 3pm</span></div>
+        <div class="hr-row"><span>Sunday</span><span class="hr-val">Closed</span></div>
+        <div class="hr-row" style="margin-top:8px;border-top:1px solid rgba(255,255,255,.07);padding-top:8px"><span>Chat</span><span class="hr-val" style="color:var(--electric)">24/7</span></div>
+      </div>
+    </div>
+
+    <div class="main">
+      <!-- Popular -->
+      <div id="popularSection">
+        <div class="sec-head">
+          <div class="sec-title">⭐ Most Popular</div>
+        </div>
+        <div class="popular-grid" id="popularGrid"></div>
+        <div class="recent-label">Recently Viewed</div>
+        <div class="recent-pills" id="recentPills"><span style="color:var(--text3);font-size:12px;">Nothing viewed yet</span></div>
+      </div>
+      <!-- FAQ List -->
+      <div class="sec-head">
+        <div class="sec-title" id="sectionTitle">All Topics</div>
+        <div class="res-count" id="resultCount"></div>
+      </div>
+      <div id="faqList"></div>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div class="chat-panel">
+      <div class="chat-head">
+        <div class="chat-ava">
+          <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M10 2.5L4.5 10H8.5L7 14.5L12.5 7H8.5L10 2.5Z" fill="#0a0a0a"/></svg>
+        </div>
+        <div class="chat-info">
+          <div class="chat-name">Assistant</div>
+          <div class="chat-status"><div class="pulse" style="width:5px;height:5px;"></div>Online now</div>
+        </div>
+        <div class="chat-badge">24/7</div>
+      </div>
+      <div class="msgs" id="msgs"></div>
+      <div class="chips" id="chips">
+        <span class="chip" onclick="quick('Track my order')">📦 Track order</span>
+        <span class="chip" onclick="quick('How to return an item')">↩ Returns</span>
+        <span class="chip" onclick="quick('Where is my refund')">💰 Refund</span>
+        <span class="chip" onclick="quick('Payment methods')">💳 Payments</span>
+        <span class="chip" onclick="quick('Delivery time')">🚚 Delivery</span>
+        <span class="chip" onclick="quick('Warranty info')">🛡 Warranty</span>
+      </div>
+      <div class="chat-in">
+        <input type="text" id="chatInput" placeholder="Ask me anything…" onkeydown="if(event.key==='Enter')send()"/>
+        <button class="sbtn" id="sendBtn" onclick="send()" title="Send">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ CONTACT PAGE -->
+<div id="page-contact" class="page">
+  <div class="form-page">
+    <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.12em;">Support</span>
+      <span style="color:var(--text3);">›</span>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--electric);text-transform:uppercase;letter-spacing:.12em;">Contact</span>
+    </div>
+    <div class="form-title">Send us a message</div>
+    <div class="form-sub">We typically respond within 24 hours. For urgent issues, call us at <a href="tel:+00000000000" class="store-phone" style="color:var(--electric);">+0 (000) 000-0000</a>.</div>
+    <div id="contactFormWrap">
+      <div class="form-grid" id="contactForm">
+        <div class="form-group">
+          <label class="form-label">First name <span>*</span></label>
+          <input class="form-input" id="cf-fname" type="text" placeholder="John">
+          <span class="err-msg" id="err-fname">Please enter your first name.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Last name <span>*</span></label>
+          <input class="form-input" id="cf-lname" type="text" placeholder="Smith">
+          <span class="err-msg" id="err-lname">Please enter your last name.</span>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Email address <span>*</span></label>
+          <input class="form-input" id="cf-email" type="email" placeholder="john@example.com">
+          <span class="err-msg" id="err-email">Please enter a valid email address.</span>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Order number <span style="color:var(--text3);font-weight:400">(optional)</span></label>
+          <input class="form-input" id="cf-order" type="text" placeholder="ES-2024-XXXXX">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Topic <span>*</span></label>
+          <select class="form-input form-select" id="cf-topic">
+            <option value="">Select a topic…</option>
+            <option>Order issue</option>
+            <option>Payment problem</option>
+            <option>Delivery question</option>
+            <option>Return or refund</option>
+            <option>Warranty claim</option>
+            <option>General inquiry</option>
+            <option>Technical support</option>
+            <option>Other</option>
+          </select>
+          <span class="err-msg" id="err-topic">Please select a topic.</span>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Message <span>*</span></label>
+          <textarea class="form-input" id="cf-message" placeholder="Describe your issue in detail…"></textarea>
+          <span class="err-msg" id="err-message">Please enter a message (at least 20 characters).</span>
+        </div>
+        <div class="form-footer full">
+          <span class="form-note">🔒 Your data is encrypted and never shared.</span>
+          <button class="submit-btn" onclick="submitContact()">
+            <span id="submitBtnText">Send Message</span>
+            <span id="submitBtnIcon">→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="form-success" id="contactSuccess">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Message sent!</div>
+      <div class="success-sub">Thank you! We'll get back to you within 24 hours.<br>Your ticket ID is <strong id="ticketRefId" style="color:var(--electric);font-family:var(--mono)"></strong></div>
+      <button class="submit-btn" style="margin-top:20px;" onclick="document.getElementById('contactSuccess').classList.remove('show');document.getElementById('contactFormWrap').style.display='block';">Send another message</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ TICKETS PAGE -->
+<div id="page-tickets" class="page">
+  <div class="ticket-page">
+    <div class="ticket-header">
+      <div>
+        <div class="form-title">My Support Tickets</div>
+        <div class="form-sub" style="margin-bottom:0;">Track the status of your open requests.</div>
+      </div>
+      <button class="submit-btn" onclick="showTab('contact')">+ New Ticket</button>
+    </div>
+    <div class="tickets-list" id="ticketsList"></div>
+    <div id="ticketDetail" class="ticket-detail">
+      <div class="td-header">
+        <div class="td-title" id="tdTitle"></div>
+        <button class="back-btn" onclick="closeTicketDetail()">← Back</button>
+      </div>
+      <div class="thread" id="tdThread"></div>
+      <div class="reply-box">
+        <div class="form-label" style="margin-bottom:8px;">Add a reply</div>
+        <textarea class="reply-input" id="replyInput" placeholder="Type your reply…"></textarea>
+        <div style="margin-top:10px;display:flex;justify-content:flex-end;">
+          <button class="submit-btn" onclick="submitReply()" style="padding:10px 22px;font-size:13px;">Send Reply →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ TRACKING PAGE -->
+<div id="page-tracking" class="page">
+  <div class="tracking-page">
+    <div style="margin-bottom:8px;display:flex;align-items:center;gap:8px;">
+      <span style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.12em;">Support</span>
+      <span style="color:var(--text3);">›</span>
+      <span style="font-family:var(--mono);font-size:10px;color:var(--electric);text-transform:uppercase;letter-spacing:.12em;">Order Tracking</span>
+    </div>
+    <div class="form-title">Track your order</div>
+    <div class="form-sub">Enter your order number to see the latest status. Try <strong style="font-family:var(--mono);color:var(--electric)">ES-2024-00847</strong> as a demo.</div>
+    <div class="tracking-input-wrap">
+      <input class="tracking-input" id="trackingInput" type="text" placeholder="e.g. ES-2024-00847" onkeydown="if(event.key==='Enter')trackOrder()"/>
+      <button class="track-btn" onclick="trackOrder()">Track →</button>
+    </div>
+    <div class="order-result" id="orderResult">
+      <div class="order-info-card">
+        <div class="order-info-top">
+          <div>
+            <div style="font-size:11px;color:var(--text3);font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px;">Order Number</div>
+            <div class="order-num" id="orderNum"></div>
+          </div>
+          <div class="order-status-badge"><div class="pulse"></div><span id="orderStatusText">Out for Delivery</span></div>
+        </div>
+        <div class="order-details-grid">
+          <div class="od-item"><label>Estimated Arrival</label><span id="orderETA">Tomorrow, Apr 19</span></div>
+          <div class="od-item"><label>Carrier</label><span id="orderCarrier">FedEx Express</span></div>
+          <div class="od-item"><label>Tracking #</label><span id="orderTracking" style="font-family:var(--mono);font-size:12px;"></span></div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--b);border-radius:var(--r);padding:24px;">
+        <div style="font-size:15px;font-weight:700;color:var(--text);margin-bottom:20px;">Delivery Timeline</div>
+        <div class="timeline" id="orderTimeline"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ ACCOUNT PAGE -->
+<div id="page-account" class="page">
+  <div class="account-page">
+    <!-- Auth Forms -->
+    <div id="authSection">
+      <div style="text-align:center;margin-bottom:28px;">
+        <div class="form-title">Welcome back</div>
+        <div class="form-sub" style="margin-bottom:0;">Sign in to manage orders, tickets, and your profile.</div>
+      </div>
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button class="auth-tab active" onclick="switchAuth('login')">Sign In</button>
+          <button class="auth-tab" onclick="switchAuth('register')">Create Account</button>
+        </div>
+        <!-- Login -->
+        <div class="auth-form show" id="loginForm">
+          <div class="form-group" style="margin-bottom:14px;">
+            <label class="form-label">Email</label>
+            <input class="form-input" id="login-email" type="email" placeholder="you@example.com">
+          </div>
+          <div class="form-group" style="margin-bottom:20px;">
+            <label class="form-label">Password</label>
+            <input class="form-input" id="login-pass" type="password" placeholder="••••••••">
+          </div>
+          <button class="submit-btn" style="width:100%;justify-content:center;" onclick="doLogin()">Sign In →</button>
+          <div style="text-align:center;margin-top:14px;font-size:12.5px;color:var(--text2);">
+            <a href="#" style="color:var(--electric);" onclick="return false;">Forgot password?</a>
+          </div>
+          <div class="auth-divider">or continue with</div>
+          <div class="auth-social">
+            <button class="social-btn" onclick="doSocialLogin('Google')">🔵 Google</button>
+            <button class="social-btn" onclick="doSocialLogin('Apple')">🍎 Apple</button>
+          </div>
+        </div>
+        <!-- Register -->
+        <div class="auth-form" id="registerForm">
+          <div class="form-grid" style="gap:12px;">
+            <div class="form-group">
+              <label class="form-label">First name</label>
+              <input class="form-input" id="reg-fname" type="text" placeholder="Jane">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last name</label>
+              <input class="form-input" id="reg-lname" type="text" placeholder="Doe">
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Email</label>
+              <input class="form-input" id="reg-email" type="email" placeholder="jane@example.com">
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Password</label>
+              <input class="form-input" id="reg-pass" type="password" placeholder="Choose a strong password">
+            </div>
+          </div>
+          <button class="submit-btn" style="width:100%;justify-content:center;margin-top:16px;" onclick="doRegister()">Create Account →</button>
+          <div class="auth-divider">or</div>
+          <div class="auth-social">
+            <button class="social-btn" onclick="doSocialLogin('Google')">🔵 Google</button>
+            <button class="social-btn" onclick="doSocialLogin('Apple')">🍎 Apple</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Dashboard (shown after login) -->
+    <div class="dashboard" id="dashboard">
+      <div class="dash-welcome">
+        <h2>Welcome back, <span id="dashName" style="color:var(--electric);">Alex</span> 👋</h2>
+        <p>Here's a summary of your account activity.</p>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-card">
+          <div class="dash-card-icon">📦</div>
+          <div class="dash-card-n" style="color:var(--electric)">4</div>
+          <div class="dash-card-l">Active Orders</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-icon">🎫</div>
+          <div class="dash-card-n" style="color:var(--spark)">2</div>
+          <div class="dash-card-l">Open Tickets</div>
+        </div>
+        <div class="dash-card">
+          <div class="dash-card-icon">↩</div>
+          <div class="dash-card-n" style="color:var(--mint)">1</div>
+          <div class="dash-card-l">Returns Pending</div>
+        </div>
+      </div>
+      <div class="dash-section-title">Recent Orders</div>
+      <div style="background:var(--surface);border:1px solid var(--b);border-radius:var(--r);padding:18px 20px;margin-bottom:24px;">
+        <div class="dash-order-row">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3);">ES-2024-00847</div>
+          <div style="flex:1;font-size:13px;font-weight:600;color:var(--text);padding:0 14px;">Sony WH-1000XM5 Headphones</div>
+          <div class="ticket-badge tb-open">Out for delivery</div>
+        </div>
+        <div class="dash-order-row">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3);">ES-2024-00792</div>
+          <div style="flex:1;font-size:13px;font-weight:600;color:var(--text);padding:0 14px;">Apple AirPods Pro 2nd Gen</div>
+          <div class="ticket-badge tb-closed">Delivered</div>
+        </div>
+        <div class="dash-order-row">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3);">ES-2024-00731</div>
+          <div style="flex:1;font-size:13px;font-weight:600;color:var(--text);padding:0 14px;">Samsung 65" QLED 4K TV</div>
+          <div class="ticket-badge tb-pending">Processing</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <button class="sb-action-btn" style="flex:1;" onclick="showTab('tickets')">🎫 My Tickets</button>
+        <button class="sb-action-btn" style="flex:1;" onclick="showTab('tracking')">📦 Track Package</button>
+        <button class="sb-action-btn" style="flex:1;" onclick="doLogout()">🚪 Sign Out</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="fc">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px;">
+        <div style="width:26px;height:26px;background:var(--electric);border-radius:7px;display:flex;align-items:center;justify-content:center;">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M7.5 1.5L2.5 8H6L4.5 11.5L9.5 5H6L7.5 1.5Z" fill="#0a0a0a"/></svg>
+        </div>
+        <span style="font-family:var(--mono);font-size:13px;font-weight:700;color:white;" class="store-name">YourStore</span>
+      </div>
+      <p class="store-tagline">Premium electronics delivered fast. Your satisfaction is our guarantee.</p>
+      <p style="margin-top:8px;font-size:11px;color:rgba(255,255,255,.15);">© 2025 YourStore. All rights reserved.</p>
+    </div>
+    <div class="fc">
+      <h4>Contact</h4>
+      <a href="tel:+00000000000" class="store-phone">📞 <span class="store-phone">+0 (000) 000-0000</span></a>
+      <a href="mailto:support@yourstore.com" class="store-email">✉️ <span class="store-email">support@yourstore.com</span></a>
+      <p>🕐 Mon–Fri: <span class="store-hours-wkd">9am – 6pm</span></p>
+      <p>📍 <span class="store-address">Your City, Your Country</span></p>
+    </div>
+    <div class="fc">
+      <h4>Support</h4>
+      <a href="#" onclick="showTab('faq');return false;">Help Center</a>
+      <a href="#" onclick="showTab('tracking');return false;">Track Order</a>
+      <a href="#" onclick="showTab('tickets');return false;">My Tickets</a>
+      <a href="#" onclick="showTab('contact');return false;">Contact Us</a>
+    </div>
+    <div class="fc">
+      <h4>Policies</h4>
+      <a href="#">Return Policy</a>
+      <a href="#">Warranty Info</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+  </div>
+  <div class="fbottom">
+    <span>© 2025 YourStore. All rights reserved.</span>
+    <span>Made with ⚡ for our customers</span>
+  </div>
+</footer>
+
+<!-- ================================================================ MOBILE CHAT BUTTON -->
+<button class="mobile-chat-btn" onclick="openMobileChat()" title="Chat with us">
+  💬
+  <div class="chat-unread">1</div>
+</button>
+
+<!-- ================================================================ MOBILE CHAT OVERLAY -->
+<div class="mobile-chat-overlay" id="mobileChatOverlay" onclick="closeMobileChatOutside(event)">
+  <div class="mobile-chat-sheet">
+    <div class="mobile-chat-drag"></div>
+    <div class="chat-head">
+      <div class="chat-ava">
+        <svg width="17" height="17" viewBox="0 0 17 17" fill="none"><path d="M10 2.5L4.5 10H8.5L7 14.5L12.5 7H8.5L10 2.5Z" fill="#0a0a0a"/></svg>
+      </div>
+      <div class="chat-info">
+        <div class="chat-name store-name">YourStore</div>
+        <div class="chat-status"><div class="pulse" style="width:5px;height:5px;"></div>Assistant · Online</div>
+      </div>
+      <button class="close-chat-btn" onclick="closeMobileChat()">×</button>
+    </div>
+    <div class="msgs" id="mobile-msgs"></div>
+    <div class="chips" id="mobile-chips">
+      <span class="chip" onclick="mobileQuick('Track my order')">📦 Track order</span>
+      <span class="chip" onclick="mobileQuick('How to return an item')">↩ Returns</span>
+      <span class="chip" onclick="mobileQuick('Payment methods')">💳 Payments</span>
+      <span class="chip" onclick="mobileQuick('Delivery time')">🚚 Delivery</span>
+    </div>
+    <div class="chat-in">
+      <input type="text" id="mobileChatInput" placeholder="Ask me anything…" onkeydown="if(event.key==='Enter')mobileSend()"/>
+      <button class="sbtn" id="mobileSendBtn" onclick="mobileSend()">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ================================================================ MOBILE SIDEBAR OVERLAY -->
+<div id="sidebarOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:399;" onclick="toggleMobileNav()"></div>
+
+<script>
+// ============================================================
+// STORE CONFIG — Change these to customize for any client
+// ============================================================
+var STORE = {
+  name:        'YourStore',               // ← Change to your store name
+  tagline:     'Your store tagline here.',// ← Change to your tagline
+  phone:       '+0 (000) 000-0000',       // ← Change to your phone number
+  email:       'support@yourstore.com',   // ← Change to your email
+  address:     'Your City, Your Country', // ← Change to your address
+  hours_wkd:   '9am - 6pm',              // ← Change your weekday hours
+  hours_sat:   '10am - 3pm',             // ← Change your Saturday hours
+  currency:    '$',                       // ← Change to your currency symbol
+  payments:    'Visa, Mastercard, Amex, PayPal, cash on delivery, bank transfer' // ← Change your accepted payments
+};
+
+function applyStoreConfig(){
+  document.querySelectorAll('.store-name').forEach(function(el){el.textContent=STORE.name;});
+  document.querySelectorAll('.store-phone').forEach(function(el){el.textContent=STORE.phone;if(el.tagName==='A')el.href='tel:'+STORE.phone.replace(/[^+\d]/g,'');});
+  document.querySelectorAll('.store-email').forEach(function(el){el.textContent=STORE.email;if(el.tagName==='A')el.href='mailto:'+STORE.email;});
+  document.querySelectorAll('.store-address').forEach(function(el){el.textContent=STORE.address;});
+  document.querySelectorAll('.store-hours-wkd').forEach(function(el){el.textContent=STORE.hours_wkd;});
+  document.querySelectorAll('.store-hours-sat').forEach(function(el){el.textContent=STORE.hours_sat;});
+  document.querySelectorAll('.store-tagline').forEach(function(el){el.textContent=STORE.tagline;});
+  document.title = STORE.name + ' — Help Center';
+  KB.forEach(function(entry){
+    entry.r = entry.r.map(function(r){
+      return r
+        .replace(/\+0 \(000\) 000-0000/g, STORE.phone)
+        .replace(/support@electroshop\.com/g, STORE.email)
+        .replace(/Your City, Your Country/g, STORE.address)
+        .replace(/Mon–Fri: 9am–6pm/g, 'Mon-Fri: '+STORE.hours_wkd)
+        .replace(/Saturday: 10am–3pm/g, 'Saturday: '+STORE.hours_sat)
+        .replace(/YourStore/g, STORE.name);
+    });
+  });
+}
+
+// ============================================================
+// THEME
+// ============================================================
+var isDark = true;
+function toggleTheme(){
+  isDark=!isDark;
+  document.documentElement.setAttribute('data-theme',isDark?'dark':'light');
+  document.getElementById('themeBtn').textContent=isDark?'🌙':'☀️';
+  try{localStorage.setItem('es_theme',isDark?'dark':'light');}catch(e){}
+  toast(isDark?'Dark mode on':'Light mode on','info');
+}
+// Restore saved theme
+(function(){
+  try{
+    var t=localStorage.getItem('es_theme');
+    if(t==='light'){isDark=false;document.documentElement.setAttribute('data-theme','light');}
+  }catch(e){}
+})();
+
+// ============================================================
+// TABS
+// ============================================================
+function showTab(tab){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  var el=document.getElementById('page-'+tab);
+  if(el){el.classList.add('active');window.scrollTo({top:document.querySelector('nav').offsetHeight,behavior:'smooth'});}
+}
+
+// ============================================================
+// MOBILE NAV
+// ============================================================
+var mobileNavOpen=false;
+function toggleMobileNav(){
+  mobileNavOpen=!mobileNavOpen;
+  document.getElementById('sidebar').classList.toggle('mobile-open',mobileNavOpen);
+  document.getElementById('sidebarOverlay').style.display=mobileNavOpen?'block':'none';
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+function toast(msg,type,duration){
+  type=type||'info';duration=duration||3200;
+  var icons={success:'✅',error:'❌',info:'⚡'};
+  var el=document.createElement('div');
+  el.className='toast '+type;
+  el.innerHTML='<span>'+icons[type]+'</span><span>'+msg+'</span>';
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(function(){el.classList.add('out');setTimeout(function(){el.remove();},320);},duration);
+}
+
+// ============================================================
+// FAQ DATA
+// ============================================================
+var FAQS=[
+  {cat:'orders',icon:'📦',bg:'rgba(0,229,255,0.1)',q:'How do I place an order?',a:'Add products to your cart, proceed to checkout, fill in your delivery details, choose a payment method, and confirm. A confirmation email with your order number is sent immediately.',popular:true},
+  {cat:'orders',icon:'📦',bg:'rgba(0,229,255,0.1)',q:'Can I change my delivery address after paying?',a:'Yes — contact our support team before the order is shipped and we will update the address at no charge.'},
+  {cat:'orders',icon:'📦',bg:'rgba(0,229,255,0.1)',q:'How do I cancel my order?',a:'Go to My Account → Orders, select your order, and click Cancel. If it is already shipped, refuse delivery or submit a return instead.'},
+  {cat:'orders',icon:'📦',bg:'rgba(0,229,255,0.1)',q:'Where can I find my order number?',a:'Your order number is in the confirmation email sent after purchase and also under My Account → Orders.'},
+  {cat:'orders',icon:'📦',bg:'rgba(0,229,255,0.1)',q:'Do I need an account to buy?',a:'No — guest checkout is available. However, an account lets you track orders, save addresses, and manage returns more easily.'},
+  {cat:'orders',icon:'📦',bg:'rgba(0,229,255,0.1)',q:'How do I apply a promo code?',a:'Enter your promo code in the Discount code field at checkout before completing payment.'},
+  {cat:'payment',icon:'💳',bg:'rgba(0,200,150,0.1)',q:'What payment methods do you accept?',a:'We accept all major cards (Visa, Mastercard, Amex), cash on delivery, bank transfer, PayPal, and installment plans on eligible orders.',popular:true},
+  {cat:'payment',icon:'💳',bg:'rgba(0,200,150,0.1)',q:'Can I pay cash on delivery?',a:'Yes, cash on delivery is available in most regions. The option appears at checkout if available for your address.'},
+  {cat:'payment',icon:'💳',bg:'rgba(0,200,150,0.1)',q:'Is it safe to pay by card?',a:'Absolutely. All transactions use SSL encryption through a PCI-DSS compliant gateway. We never store your full card details.'},
+  {cat:'payment',icon:'💳',bg:'rgba(0,200,150,0.1)',q:'Why was my payment declined?',a:'Common causes: insufficient funds, daily limit reached, or a fraud block from your bank. Try another card or contact your bank to authorize the transaction.'},
+  {cat:'delivery',icon:'🚚',bg:'rgba(255,230,0,0.08)',q:'How much does delivery cost?',a:'Delivery cost is calculated at checkout based on your location and order size. Orders above the threshold ship free.',popular:true},
+  {cat:'delivery',icon:'🚚',bg:'rgba(255,230,0,0.08)',q:'Do you offer free shipping?',a:'Yes! Orders above the free shipping threshold qualify for free standard delivery. Express options are available for an extra fee.'},
+  {cat:'delivery',icon:'🚚',bg:'rgba(255,230,0,0.08)',q:'How do I track my package?',a:'Once your order ships you will receive a tracking link by email. Also track under My Account → Orders → Track.'},
+  {cat:'delivery',icon:'🚚',bg:'rgba(255,230,0,0.08)',q:'Can I choose a delivery time slot?',a:'Yes, if the courier in your area supports scheduling. Available slots appear at checkout or in your shipping confirmation email.'},
+  {cat:'returns',icon:'↩️',bg:'rgba(255,92,53,0.1)',q:'How do I return an item?',a:'Submit a return request from My Account → Orders within the return period. We will email a prepaid return label. Refunds process in 3–5 business days after we receive the item.',popular:true},
+  {cat:'returns',icon:'↩️',bg:'rgba(255,92,53,0.1)',q:'How many days do I have to return?',a:'14 days for non-defective items, 30 days for items that arrive defective or damaged.'},
+  {cat:'returns',icon:'↩️',bg:'rgba(255,92,53,0.1)',q:'I received the wrong item — what do I do?',a:'Contact support with your order number and a photo of the wrong item. We will ship the correct item at no cost and arrange pickup.'},
+  {cat:'warranty',icon:'🛡️',bg:'rgba(155,89,255,0.1)',q:'What is the warranty period?',a:'Most products carry a 12-month manufacturer warranty. Some premium products include 24-month coverage — check the product page for details.'},
+  {cat:'warranty',icon:'🛡️',bg:'rgba(155,89,255,0.1)',q:'How do I make a warranty claim?',a:'Contact support via phone, email, or chat with your order number and fault description. We will arrange repair or replacement.'},
+  {cat:'general',icon:'ℹ️',bg:'rgba(255,159,10,0.1)',q:'Where can I find current promotions?',a:'Visit our Promotions page, subscribe to our newsletter, or follow us on social media for exclusive deals.'},
+  {cat:'general',icon:'ℹ️',bg:'rgba(255,159,10,0.1)',q:'How can I contact support?',a:'Phone: +0 (000) 000-0000 | Email: support@yourstore.com | Chat: 24/7 right here. Phone & email: Mon–Fri 9am–6pm.',popular:true},
+  {cat:'general',icon:'ℹ️',bg:'rgba(255,159,10,0.1)',q:'How do I speak to a human agent?',a:'Type "agent" or "human" in the chat, or call us at +0 (000) 000-0000, Mon–Fri 9am–6pm.'}
+];
+
+var curCat='all',curSearch='',recentViewed=[];
+
+function highlightText(text,query){
+  if(!query)return text;
+  var re=new RegExp('('+query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+  return text.replace(re,'<mark class="highlight">$1</mark>');
+}
+
+function render(){
+  var items=FAQS;
+  if(curCat!=='all')items=items.filter(f=>f.cat===curCat);
+  var q=curSearch;
+  if(q)items=items.filter(f=>(f.q+f.a).toLowerCase().includes(q));
+  var list=document.getElementById('faqList');
+  var pop=document.getElementById('popularSection');
+  if(pop)pop.style.display=(curCat==='all'&&!q)?'block':'none';
+  if(!items.length){
+    list.innerHTML='<div class="no-res"><div class="no-res-icon">🔍</div><p>No results found for "'+curSearch+'".<br><a href="#" style="color:var(--electric);" onclick="clearSearch();return false;">Clear search</a> or ask the chat assistant!</p></div>';
+    document.getElementById('resultCount').textContent='';
+    return;
+  }
+  list.innerHTML=items.map((f,i)=>`
+    <div class="faq-item fi" style="animation-delay:${i*0.04}s" data-cat="${f.cat}">
+      <div class="fq" onclick="tog(this,'${f.q.replace(/'/g,"\\'")}')">
+        <div class="fql">
+          <div class="fbadge" style="background:${f.bg}">${f.icon}</div>
+          <div class="ftitle">${q?highlightText(f.q,q):f.q}</div>
+        </div>
+        <div class="fchev">▾</div>
+      </div>
+      <div class="fa">${q?highlightText(f.a,q):f.a}
+        <div class="fa-actions">
+          <button class="fa-action" onclick="quick('${f.q.replace(/'/g,"\\'")}');document.getElementById('chatInput').scrollIntoView({behavior:'smooth'})">💬 Ask AI</button>
+          <button class="fa-action" onclick="toast('Marked as helpful!','success')">👍 Helpful</button>
+          <button class="fa-action" onclick="showTab('contact')">📩 Contact us</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+  document.getElementById('resultCount').textContent=items.length+' article'+(items.length!==1?'s':'');
+}
+
+function clearSearch(){
+  curSearch='';
+  document.getElementById('searchInput').value='';
+  render();
+}
+
+function tog(el,q){
+  var item=el.closest('.faq-item'),isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(x=>x.classList.remove('open'));
+  if(!isOpen){
+    item.classList.add('open');
+    if(q&&!recentViewed.includes(q)){recentViewed.unshift(q);if(recentViewed.length>5)recentViewed.pop();renderRecent();}
+  }
+}
+
+function setCat(btn){
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  curCat=btn.dataset.cat;
+  var title=btn.textContent.trim().replace(/\d+/g,'').trim();
+  document.getElementById('sectionTitle').textContent=title;
+  render();
+}
+
+function renderRecent(){
+  var el=document.getElementById('recentPills');
+  if(!el)return;
+  if(!recentViewed.length){el.innerHTML='<span style="color:var(--text3);font-size:12px;">Nothing viewed yet</span>';return;}
+  el.innerHTML=recentViewed.map(q=>`<span class="recent-pill" onclick="openFAQ('${q.replace(/'/g,"\\'")}')">↩ ${q}</span>`).join('');
+}
+
+function openFAQ(q){
+  curSearch=q.toLowerCase().slice(0,20);
+  document.getElementById('searchInput').value=q.slice(0,20);
+  render();
+}
+
+function renderPopular(){
+  var pop=FAQS.filter(f=>f.popular).slice(0,4);
+  var el=document.getElementById('popularGrid');
+  if(!el)return;
+  el.innerHTML=pop.map(f=>`
+    <div class="popular-card fi" onclick="openFAQFull('${f.q.replace(/'/g,"\\'")}')">
+      <div class="pc-badge">${f.icon}</div>
+      <div class="pc-q">${f.q}</div>
+      <div class="pc-cat">${f.cat}</div>
+    </div>
+  `).join('');
+}
+
+function openFAQFull(q){
+  curSearch='';curCat='all';
+  document.getElementById('searchInput').value='';
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.toggle('active',b.dataset.cat==='all'));
+  document.getElementById('sectionTitle').textContent='All Topics';
+  render();
+  setTimeout(function(){
+    var items=document.querySelectorAll('.faq-item');
+    items.forEach(function(item){
+      var title=item.querySelector('.ftitle');
+      if(title&&title.textContent.includes(q.slice(0,20))){
+        item.classList.add('open');
+        item.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    });
+  },100);
+}
+
+function updateCounts(){
+  ['all','orders','payment','delivery','returns','warranty','general'].forEach(c=>{
+    var el=document.getElementById('c-'+c);
+    if(el)el.textContent=c==='all'?FAQS.length:FAQS.filter(f=>f.cat===c).length;
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input',function(){
+  curSearch=this.value.toLowerCase().trim();
+  if(curSearch)showTab('faq');
+  render();
+});
+
+// ============================================================
+// CHAT BOT
+// ============================================================
+var KB=[
+  {p:['hello','hi','hey','hiya','good morning','good afternoon','good evening','greetings'],r:['Hello! Welcome to YourStore! How can I help you today? 👋','Hi there! Great to see you. What can I help with today?'],s:['Track my order','How to return an item','Payment methods']},
+  {p:['thank','thanks','thank you','ty','thx','cheers','appreciate','great help','helpful','perfect','awesome'],r:["You're very welcome! Anything else I can help with? 😊",'Happy to help! Let me know if you need anything else.'],s:['Track my order','Contact support']},
+  {p:['bye','goodbye','see you','cya','take care','good night'],r:['Goodbye! Have a wonderful day! Come back anytime. 👋'],s:[]},
+  {p:['who are you','what are you','are you a bot','are you ai','your name'],r:["I'm YourStore's Virtual Assistant — here 24/7 for orders, returns, payments, delivery, and more! 🤖"],s:['Track my order','Payment methods']},
+  {p:['help','i need help','can you help','assist','support','problem','issue'],r:['Of course! I can help with:\n\n📦 Orders & cancellations\n🚚 Delivery & tracking\n↩ Returns & refunds\n💳 Payments\n🛡 Warranty\n📞 Contact info'],s:['Track my order','Return an item','Payment methods','Contact support']},
+  {p:['track','tracking','where is my order','where is my package','order status','shipped','check order','my order'],r:['To track your order:\n\n1️⃣ Check your shipping confirmation email for a tracking link\n2️⃣ Or visit the Track Order tab above\n3️⃣ Or go to My Account → Orders → Track\n\nNo movement for 48+ hours? Contact us:\n📞 +0 (000) 000-0000'],s:['Contact support','Delivery time']},
+  {p:['cancel order','cancel my order','how to cancel','stop order'],r:['To cancel your order:\n\n1️⃣ Go to My Account → Orders\n2️⃣ Select the order\n3️⃣ Click Cancel\n\nOrders can only be cancelled before shipping. If already shipped, refuse delivery or submit a return.'],s:['How to return','Contact support']},
+  {p:['return','how to return','send back','return item','return policy','want to return'],r:['How to return an item:\n\n1️⃣ Go to My Account → Orders\n2️⃣ Click Return Item\n3️⃣ Choose reason and submit\n4️⃣ We email a prepaid label\n5️⃣ Pack and drop off!\n\nReturn window: 14 days (non-defective), 30 days (defective)\nRefund: 3–5 business days after receipt.'],s:['Where is my refund','Contact support']},
+  {p:['refund','where is my refund','refund status','money back','when will i get refund'],r:['Refunds are processed within 3–5 business days after we receive your return.\n\nMoney goes back to your original payment method. More than 10 business days?\n📞 +0 (000) 000-0000\n✉ support@yourstore.com'],s:['Return an item','Contact support']},
+  {p:['wrong item','wrong product','incorrect item','not what i ordered'],r:["Sorry about that! 😔\n\n1️⃣ Take a clear photo of the wrong item\n2️⃣ Note your order number\n3️⃣ Contact us:\n📞 +0 (000) 000-0000\n✉ support@yourstore.com\n\nWe ship the correct item at no cost!"],s:['Contact support']},
+  {p:['damaged','broken','defective','faulty','not working'],r:["Sorry your item arrived damaged! 😔\n\nDefective items can be returned within 30 days. Contact us with your order number and photos:\n📞 +0 (000) 000-0000\n✉ support@yourstore.com\n\nWe arrange replacement or full refund quickly."],s:['Warranty info','Contact support','Return an item']},
+  {p:['delivery','shipping','how long','delivery time','when will it arrive','how fast'],r:['Delivery times:\n\n📦 Standard: 3–7 business days\n⚡ Express: 1–2 business days (extra fee)\n🆓 Free shipping on qualifying orders!\n\nYou get a tracking link by email once shipped.'],s:['Track my order','Free shipping']},
+  {p:['free shipping','shipping cost','how much delivery','delivery fee'],r:['FREE shipping on qualifying orders! 🆓\n\nExpress from $9.99\nStandard: calculated at checkout\n\nFull cost shown before you confirm — no surprises!'],s:['Track my order']},
+  {p:['payment','pay','how to pay','payment method','visa','mastercard','paypal'],r:['We accept:\n\n💳 Credit/Debit (Visa, Mastercard, Amex)\n💵 Cash on delivery\n🏦 Bank transfer\n🅿 PayPal\n📅 Installment plans\n\nAll payments SSL encrypted and 100% secure! 🔒'],s:['Is it safe to pay','Cash on delivery']},
+  {p:['payment declined','card declined','payment failed','cant pay'],r:['Payment declined? Try these steps:\n\n1️⃣ Check sufficient funds\n2️⃣ Verify daily limit\n3️⃣ Confirm card is not expired\n4️⃣ Check billing address matches\n5️⃣ Enable online transactions with your bank\n\nStill stuck? Call: +0 (000) 000-0000'],s:['Payment methods','Contact support']},
+  {p:['safe','secure','ssl','is it safe','trust'],r:['Your security is our top priority! 🔒\n\n✅ 256-bit SSL encryption\n✅ PCI-DSS compliant\n✅ We never store full card details\n✅ Data never shared\n\nShop with complete confidence!'],s:['Payment methods']},
+  {p:['warranty','guarantee','warranty period','coverage'],r:['Warranty coverage:\n\n🛡 Standard: 12 months\n🛡 Premium products: 24 months\n\nCheck the product page for exact coverage.\nCovers manufacturing defects only.'],s:['Warranty claim','Return an item','Contact support']},
+  {p:['warranty claim','claim warranty','repair','fix under warranty'],r:['To make a warranty claim:\n\n1️⃣ Find your order number\n2️⃣ Contact us:\n📞 +0 (000) 000-0000\n✉ support@yourstore.com\n3️⃣ Describe fault + send photos\n4️⃣ We guide you through repair or replacement\n\nProcessed within 2–5 business days.'],s:['Contact support','Return an item']},
+  {p:['contact','reach you','get in touch','speak to','human','agent','live agent','phone number','email address'],r:['Contact YourStore:\n\n📞 Phone: +0 (000) 000-0000\nMon–Fri: 9am–6pm | Sat: 10am–3pm\n\n✉ Email: support@yourstore.com\nReply within 24 hours\n\n💬 Chat: 24/7 right here!'],s:['Track my order','Return an item']},
+  {p:['opening hours','business hours','when open','what time','hours'],r:['Support hours:\n\n📞 Phone & Email:\nMon–Fri: 9am–6pm\nSaturday: 10am–3pm\nSunday: Closed\n\n💬 Chat: 24/7 always!\n\n📍 Your City, Your Country'],s:['Contact support']},
+  {p:['promo','deal','discount','sale','offer','newsletter','promo code','coupon'],r:['Find deals at YourStore! 🎉\n\n🛍 Visit our Promotions page\n📧 Subscribe to our newsletter\n📱 Follow us on social media\n\nApply promo code at checkout in the Discount field!'],s:['Contact support']}
+];
+var FALLBACKS=["I didn't quite catch that — could you rephrase? 🤔\n\nI can help with orders, returns, delivery, payments & warranty!\n📞 +0 (000) 000-0000","Hmm, need a bit more detail. Try:\n📦 Track an order\n↩ Make a return\n💳 Payment methods\n🚚 Delivery times","I want to help but need more info. Or call us: +0 (000) 000-0000 (Mon–Fri 9am–6pm)."];
+
+function getReply(input){
+  var txt=input.toLowerCase().trim();
+  var best=null,bestScore=0;
+  for(var i=0;i<KB.length;i++){
+    var entry=KB[i],score=0;
+    for(var j=0;j<entry.p.length;j++){
+      var p=entry.p[j];
+      if(txt===p){score+=10;continue;}
+      if(txt.includes(p)){score+=p.split(' ').length*2;continue;}
+      var words=p.split(' ');
+      for(var k=0;k<words.length;k++){if(words[k].length>3&&txt.includes(words[k]))score+=1;}
+    }
+    if(score>bestScore){bestScore=score;best=entry;}
+  }
+  if(best&&bestScore>0){
+    var r=Array.isArray(best.r)?best.r[Math.floor(Math.random()*best.r.length)]:best.r;
+    return{text:r,suggestions:best.s||[]};
+  }
+  return{text:FALLBACKS[Math.floor(Math.random()*FALLBACKS.length)],suggestions:['Track my order','Contact support','Return an item']};
+}
+
+function nowTime(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+
+function addMsg(txt,role){
+  var msgs=document.getElementById('msgs');
+  var d=document.createElement('div');
+  d.className='msg '+role+' fi';
+  d.innerHTML='<div class="bubble">'+txt.replace(/\n/g,'<br>')+'</div><div class="mtime">'+nowTime()+'</div>';
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+  return d;
+}
+
+function addTyping(){
+  var msgs=document.getElementById('msgs');
+  var d=document.createElement('div');
+  d.className='typing-wrap fi';
+  d.innerHTML='<div class="tbubble"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+  return d;
+}
+
+function updateChips(list){
+  var c=document.getElementById('chips');
+  if(!list||!list.length){c.innerHTML='';return;}
+  var html='';
+  for(var i=0;i<list.length;i++){
+    var t=list[i].replace(/'/g,"\\'");
+    html+='<span class="chip" onclick="quick(\''+t+'\')">'+list[i]+'</span>';
+  }
+  c.innerHTML=html;
+}
+
+function quick(t){document.getElementById('chatInput').value=t;send();}
+
+function send(){
+  var inp=document.getElementById('chatInput');
+  var txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';
+  document.getElementById('sendBtn').disabled=true;
+  addMsg(txt,'user');
+  var typEl=addTyping();
+  var delay=600+Math.random()*800;
+  setTimeout(function(){
+    typEl.remove();
+    var reply=getReply(txt);
+    addMsg(reply.text,'bot');
+    updateChips(reply.suggestions);
+    document.getElementById('sendBtn').disabled=false;
+    inp.focus();
+  },delay);
+}
+
+// ============================================================
+// CONTACT FORM
+// ============================================================
+function validateField(id,errId,check){
+  var val=document.getElementById(id).value.trim();
+  var ok=check(val);
+  document.getElementById(id).classList.toggle('error',!ok);
+  document.getElementById(errId).classList.toggle('show',!ok);
+  return ok;
+}
+
+function submitContact(){
+  var ok=true;
+  ok=validateField('cf-fname','err-fname',v=>v.length>0)&&ok;
+  ok=validateField('cf-lname','err-lname',v=>v.length>0)&&ok;
+  ok=validateField('cf-email','err-email',v=>/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))&&ok;
+  ok=validateField('cf-topic','err-topic',v=>v.length>0)&&ok;
+  ok=validateField('cf-message','err-message',v=>v.length>=20)&&ok;
+  if(!ok){toast('Please fix the errors above.','error');return;}
+  var btn=document.querySelector('.submit-btn');
+  btn.disabled=true;
+  document.getElementById('submitBtnText').textContent='Sending…';
+  document.getElementById('submitBtnIcon').textContent='⏳';
+  setTimeout(function(){
+    var ticketId='ES-TK-'+Math.floor(1000+Math.random()*9000);
+    document.getElementById('ticketRefId').textContent=ticketId;
+    document.getElementById('contactFormWrap').style.display='none';
+    document.getElementById('contactSuccess').classList.add('show');
+    btn.disabled=false;
+    document.getElementById('submitBtnText').textContent='Send Message';
+    document.getElementById('submitBtnIcon').textContent='→';
+    toast('Message sent! Ticket '+ticketId+' created.','success');
+    addFakeTicket(ticketId,document.getElementById('cf-topic').value||'General Inquiry');
+  },1400);
+}
+
+// ============================================================
+// TICKETS
+// ============================================================
+// ── DEFAULT demo tickets (only used if nothing saved yet) ──
+var DEFAULT_TICKETS=[
+  {id:'ES-TK-0192',title:'Order not received after 10 days',preview:'Hi, I placed order ES-2024-00731 on April 8th and it still hasn\'t arrived…',status:'open',date:'Apr 10, 2025',thread:[
+    {who:'Customer',ts:'Apr 10, 10:32 AM',text:'Hi, I placed order ES-2024-00731 on April 8th and it still hasn\'t arrived. The tracking shows it left the warehouse but nothing since.'},
+    {who:'Support Agent · Sarah M.',ts:'Apr 10, 2:15 PM',text:'Hello! Thank you for reaching out. I\'ve escalated this to our logistics team. The package appears to be delayed at the regional sorting facility. I\'ll have an update for you within 24 hours. Apologies for the inconvenience!',support:true}
+  ]},
+  {id:'ES-TK-0187',title:'Wrong color headphones delivered',preview:'I ordered the black Sony headphones but received silver ones instead…',status:'pending',date:'Apr 7, 2025',thread:[
+    {who:'Customer',ts:'Apr 7, 3:20 PM',text:'I ordered the black Sony WH-1000XM5 but received the silver version. Order number ES-2024-00847. Please help!'},
+    {who:'Support Agent · James K.',ts:'Apr 7, 5:45 PM',text:'Hi! I\'m so sorry about this mix-up. We\'ve arranged for a prepaid return label to be sent to your email within 2 hours. Once we receive the silver pair, we\'ll immediately ship the black version with express delivery at no extra cost!',support:true},
+    {who:'Customer',ts:'Apr 8, 9:00 AM',text:'Thank you! I received the label but haven\'t had time to drop it off yet. Will do so tomorrow.'}
+  ]},
+  {id:'ES-TK-0174',title:'Refund inquiry for returned TV',preview:'I returned the Samsung TV on March 28th but haven\'t received my refund yet…',status:'closed',date:'Mar 28, 2025',thread:[
+    {who:'Customer',ts:'Mar 28, 11:00 AM',text:'I returned the Samsung TV on March 28th. When can I expect my refund?'},
+    {who:'Support Agent · Lisa T.',ts:'Mar 29, 9:30 AM',text:'Hi! We received your return on March 29th. The refund of $1,249.00 has been processed and will appear on your card within 3–5 business days. Thank you for your patience!',support:true},
+    {who:'Customer',ts:'Apr 2, 2:00 PM',text:'Refund received. Thank you for your help!'},
+    {who:'Support Agent · Lisa T.',ts:'Apr 2, 2:30 PM',text:'Wonderful! Glad it all worked out. This ticket is now closed. Please don\'t hesitate to reach out if you need anything else!',support:true}
+  ]}
+];
+
+// ── Load tickets from localStorage (or use defaults) ──
+function loadTickets(){
+  try{
+    var saved=localStorage.getItem('electroshop_tickets');
+    if(saved) return JSON.parse(saved);
+  }catch(e){}
+  return DEFAULT_TICKETS;
+}
+
+// ── Save tickets to localStorage ──
+function saveTickets(){
+  try{
+    localStorage.setItem('electroshop_tickets', JSON.stringify(TICKETS));
+  }catch(e){}
+}
+
+var TICKETS = loadTickets();
+
+var openTicketId=null;
+
+function renderTickets(){
+  var list=document.getElementById('ticketsList');
+  list.innerHTML=TICKETS.map(t=>`
+    <div class="ticket-card fi" onclick="openTicket('${t.id}')">
+      <div class="ticket-status ts-${t.status}"></div>
+      <div class="ticket-body">
+        <div class="ticket-id">${t.id}</div>
+        <div class="ticket-title">${t.title}</div>
+        <div class="ticket-preview">${t.preview}</div>
+      </div>
+      <div class="ticket-meta">
+        <span class="ticket-badge tb-${t.status}">${t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span>
+        <span class="ticket-date">${t.date}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openTicket(id){
+  var ticket=TICKETS.find(t=>t.id===id);
+  if(!ticket)return;
+  openTicketId=id;
+  document.getElementById('tdTitle').textContent=ticket.title+' · '+ticket.id;
+  document.getElementById('tdThread').innerHTML=ticket.thread.map(m=>`
+    <div class="thread-msg ${m.support?'support':'customer'}">
+      <div class="thread-who">${m.who} · ${m.ts}</div>
+      ${m.text}
+    </div>
+  `).join('');
+  document.getElementById('ticketDetail').classList.add('show');
+  document.getElementById('ticketDetail').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function closeTicketDetail(){
+  document.getElementById('ticketDetail').classList.remove('show');
+  openTicketId=null;
+}
+
+function submitReply(){
+  var val=document.getElementById('replyInput').value.trim();
+  if(!val){toast('Please write a reply first.','error');return;}
+  if(!openTicketId)return;
+  var ticket=TICKETS.find(t=>t.id===openTicketId);
+  if(!ticket)return;
+  ticket.thread.push({who:'Customer',ts:new Date().toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}),text:val});
+  saveTickets();
+  document.getElementById('replyInput').value='';
+  openTicket(openTicketId);
+  toast('Reply sent!','success');
+}
+
+function addFakeTicket(id,topic){
+  TICKETS.unshift({id:id,title:'New inquiry: '+topic,preview:'Just submitted via contact form.',status:'open',date:'Just now',thread:[
+    {who:'Customer',ts:'Just now',text:document.getElementById('cf-message').value||'Support request submitted.'}
+  ]});
+  saveTickets();
+  renderTickets();
+}
+
+// ============================================================
+// ORDER TRACKING
+// ============================================================
+var DEMO_ORDERS={
+  'ES-2024-00847':{status:'Out for Delivery',eta:'Tomorrow, Apr 19',carrier:'FedEx Express',tracking:'FX-7829-0193-4422',step:3},
+  'ES-2024-00792':{status:'Delivered',eta:'Apr 12, 2025',carrier:'UPS Ground',tracking:'1Z-8847-0291-7733',step:4},
+  'ES-2024-00731':{status:'Processing',eta:'Apr 22–24, 2025',carrier:'USPS',tracking:'9400-1118-9956-3399',step:1}
+};
+
+var TL_STEPS=[
+  {label:'Order Confirmed',desc:'Your order has been placed and payment verified.'},
+  {label:'Processing',desc:'We\'re preparing your items for shipment.'},
+  {label:'Shipped',desc:'Your package is on its way to you.'},
+  {label:'Out for Delivery',desc:'Your package is with the delivery driver today.'},
+  {label:'Delivered',desc:'Package delivered successfully. Enjoy your order!'}
+];
+
+function trackOrder(){
+  var val=document.getElementById('trackingInput').value.trim().toUpperCase();
+  if(!val){toast('Please enter an order number.','error');return;}
+  var order=DEMO_ORDERS[val];
+  if(!order){
+    toast('Order not found. Try ES-2024-00847 as a demo.','error');
+    document.getElementById('orderResult').classList.remove('show');
+    return;
+  }
+  document.getElementById('orderNum').textContent=val;
+  document.getElementById('orderStatusText').textContent=order.status;
+  document.getElementById('orderETA').textContent=order.eta;
+  document.getElementById('orderCarrier').textContent=order.carrier;
+  document.getElementById('orderTracking').textContent=order.tracking;
+  var tl=document.getElementById('orderTimeline');
+  tl.innerHTML=TL_STEPS.map((s,i)=>{
+    var done=i<order.step,active=i===order.step-1||(order.step===5&&i===4);
+    return `<div class="tl-item ${done?'done':''} ${active?'active':''}">
+      <div class="tl-dot">${done?'✓':i+1}</div>
+      <div class="tl-title">${s.label}</div>
+      <div class="tl-desc">${s.desc}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('orderResult').classList.add('show');
+  toast('Order found! Showing tracking details.','success');
+}
+
+// ============================================================
+// AUTH — Real localStorage accounts
+// ============================================================
+function loadUsers(){
+  try{var u=localStorage.getItem('es_users');return u?JSON.parse(u):{};}catch(e){return{};}
+}
+function saveUsers(users){
+  try{localStorage.setItem('es_users',JSON.stringify(users));}catch(e){}
+}
+function loadSession(){
+  try{var s=localStorage.getItem('es_session');return s?JSON.parse(s):null;}catch(e){return null;}
+}
+function saveSession(user){
+  try{localStorage.setItem('es_session',JSON.stringify(user));}catch(e){}
+}
+function clearSession(){
+  try{localStorage.removeItem('es_session');}catch(e){}
+}
+
+var loggedIn=false;
+var currentUser=null;
+
+function switchAuth(tab){
+  document.querySelectorAll('.auth-tab').forEach(function(b,i){b.classList.toggle('active',i===(tab==='login'?0:1));});
+  document.getElementById('loginForm').classList.toggle('show',tab==='login');
+  document.getElementById('registerForm').classList.toggle('show',tab==='register');
+}
+
+function showDashboard(name){
+  loggedIn=true;
+  document.getElementById('dashName').textContent=name;
+  document.getElementById('authSection').style.display='none';
+  document.getElementById('dashboard').classList.add('show');
+  // Update open ticket count on dashboard
+  var openCount=TICKETS.filter(function(t){return t.status==='open';}).length;
+  var dashTicketEl=document.querySelector('.dash-card-n[style*="spark"]');
+  if(dashTicketEl)dashTicketEl.textContent=openCount;
+}
+
+function doLogin(){
+  var email=document.getElementById('login-email').value.trim().toLowerCase();
+  var pass=document.getElementById('login-pass').value;
+  if(!email||!pass){toast('Please fill in all fields.','error');return;}
+  var users=loadUsers();
+  if(!users[email]){toast('No account found. Please register first.','error');return;}
+  if(users[email].password!==pass){toast('Wrong password. Try again.','error');return;}
+  currentUser=users[email];
+  saveSession(currentUser);
+  toast('Welcome back, '+currentUser.firstName+'!','success');
+  showDashboard(currentUser.firstName);
+}
+
+function doRegister(){
+  var fname=document.getElementById('reg-fname').value.trim();
+  var lname=document.getElementById('reg-lname').value.trim();
+  var email=document.getElementById('reg-email').value.trim().toLowerCase();
+  var pass=document.getElementById('reg-pass').value;
+  if(!fname||!email||!pass){toast('Please fill in all fields.','error');return;}
+  if(pass.length<6){toast('Password must be at least 6 characters.','error');return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){toast('Please enter a valid email.','error');return;}
+  var users=loadUsers();
+  if(users[email]){toast('An account with this email already exists. Please sign in.','error');return;}
+  var user={firstName:fname,lastName:lname,email:email,password:pass,createdAt:new Date().toLocaleDateString()};
+  users[email]=user;
+  saveUsers(users);
+  currentUser=user;
+  saveSession(currentUser);
+  toast('Account created! Welcome, '+fname+'!','success');
+  showDashboard(fname);
+}
+
+function doSocialLogin(provider){
+  toast('Connecting with '+provider+'…','info',1200);
+  setTimeout(function(){
+    loggedIn=true;
+    document.getElementById('dashName').textContent='there';
+    document.getElementById('authSection').style.display='none';
+    document.getElementById('dashboard').classList.add('show');
+    toast('Signed in with '+provider+'!','success');
+  },1000);
+}
+
+function doLogout(){
+  loggedIn=false;
+  currentUser=null;
+  clearSession();
+  document.getElementById('authSection').style.display='block';
+  document.getElementById('dashboard').classList.remove('show');
+  document.getElementById('login-email').value='';
+  document.getElementById('login-pass').value='';
+  toast('Signed out successfully.','info');
+}
+
+// Restore session on page load
+function restoreSession(){
+  var session=loadSession();
+  if(session){
+    currentUser=session;
+    showDashboard(session.firstName||'there');
+  }
+}
+
+// ============================================================
+// MOBILE CHAT
+// ============================================================
+var mobileChatInited = false;
+
+function openMobileChat(){
+  document.getElementById('mobileChatOverlay').classList.add('open');
+  document.body.style.overflow='hidden';
+  // Remove unread badge
+  var badge = document.querySelector('.mobile-chat-btn .chat-unread');
+  if(badge) badge.style.display='none';
+  // Init welcome message once
+  if(!mobileChatInited){
+    mobileChatInited=true;
+    setTimeout(function(){
+      mobileAddMsg('Hello! Welcome to '+STORE.name+' Help Center! ⚡\n\nI can help with orders, tracking, returns, payments & warranty.\n\nHow can I help you today?','bot');
+      mobileUpdateChips(['Track my order','How to return an item','Payment methods','Contact support']);
+    },300);
+  }
+  setTimeout(function(){
+    document.getElementById('mobileChatInput').focus();
+  },400);
+}
+
+function closeMobileChat(){
+  document.getElementById('mobileChatOverlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function closeMobileChatOutside(e){
+  if(e.target===document.getElementById('mobileChatOverlay')) closeMobileChat();
+}
+
+function mobileAddMsg(txt,role){
+  var msgs=document.getElementById('mobile-msgs');
+  var d=document.createElement('div');
+  d.className='msg '+role+' fi';
+  d.innerHTML='<div class="bubble">'+txt.replace(/\n/g,'<br>')+'</div><div class="mtime">'+nowTime()+'</div>';
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function mobileAddTyping(){
+  var msgs=document.getElementById('mobile-msgs');
+  var d=document.createElement('div');
+  d.className='typing-wrap fi';
+  d.innerHTML='<div class="tbubble"><div class="td"></div><div class="td"></div><div class="td"></div></div>';
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+  return d;
+}
+
+function mobileUpdateChips(list){
+  var c=document.getElementById('mobile-chips');
+  if(!list||!list.length){c.innerHTML='';return;}
+  var html='';
+  for(var i=0;i<list.length;i++){
+    var t=list[i].replace(/'/g,"\\'");
+    html+='<span class="chip" onclick="mobileQuick(\''+t+'\')">'+list[i]+'</span>';
+  }
+  c.innerHTML=html;
+}
+
+function mobileQuick(t){document.getElementById('mobileChatInput').value=t;mobileSend();}
+
+function mobileSend(){
+  var inp=document.getElementById('mobileChatInput');
+  var txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';
+  document.getElementById('mobileSendBtn').disabled=true;
+  mobileAddMsg(txt,'user');
+  var typEl=mobileAddTyping();
+  var delay=600+Math.random()*800;
+  setTimeout(function(){
+    typEl.remove();
+    var reply=getReply(txt);
+    mobileAddMsg(reply.text,'bot');
+    mobileUpdateChips(reply.suggestions);
+    document.getElementById('mobileSendBtn').disabled=false;
+    inp.focus();
+  },delay);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('load',function(){
+  applyStoreConfig();
+  restoreSession();
+  updateCounts();
+  render();
+  renderPopular();
+  renderRecent();
+  renderTickets();
+  setTimeout(function(){
+    addMsg('Hello! Welcome to '+STORE.name+' Help Center! ⚡\n\nI\'m your virtual assistant — available 24/7 to help with orders, tracking, returns, payments, delivery, and warranty.\n\nHow can I help you today?','bot');
+    updateChips(['Track my order','How to return an item','Payment methods','Contact support']);
+  },500);
+});
+</script>
+</body>
+</html>
